@@ -1,5 +1,6 @@
 package com.apps.iotapp.fragment
 
+import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -9,7 +10,6 @@ import android.view.ViewGroup
 import com.apps.iotapp.databinding.FragmentSmartLampBinding
 import com.google.android.material.slider.Slider
 import com.google.firebase.database.*
-import com.google.firebase.ktx.Firebase
 
 
 class SmartLamp : Fragment() {
@@ -30,35 +30,32 @@ class SmartLamp : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        // Get a database reference
         database=FirebaseDatabase.getInstance().reference
-//        readCondition()
+        // Read data once when start application
         readDataCondition()
-
+        // Check condition checked button
         binding.swOnoff.setOnCheckedChangeListener { compoundButton, condition ->
             if (condition==true){
                 binding.tvSwitch.text="Lamp On"
                 database.child("data").child("switch").setValue("on")
+                binding.tvBrightness.setTextColor(Color.parseColor("#FF1CC3F8"))
                 binding.slOnoff.isEnabled=true
-//                binding.slOnoff.value= 100.0F
-//                binding.tvBrightness.text="100%"
-//                binding.tvEnergy.text="10"
+                energyCount(binding.slOnoff)
                 sliderChange()
-//                val valBright=binding.slOnoff.value.toInt().toString()
-//                binding.tvBrightness.text=valBright+"%"
-//                database.child("data").child("brightness").setValue(valBright)
-
             }else{
                 binding.tvSwitch.text="Lamp Off"
                 database.child("data").child("switch").setValue("off")
-                binding.slOnoff.isEnabled=false
-                binding.slOnoff.value= 0.0F
+                binding.tvBrightness.setTextColor(Color.parseColor("#CACACA"))
                 val valBright=binding.slOnoff.value.toInt().toString()
                 binding.tvBrightness.text=valBright+"%"
                 binding.tvEnergy.text="0"
                 database.child("data").child("brightness").setValue(valBright)
+                binding.slOnoff.isEnabled=false
             }
         }
+
+
     }
 
     private fun readDataCondition() {
@@ -79,15 +76,22 @@ class SmartLamp : Fragment() {
                     binding.tvSwitch.text="Lamp On"
                     binding.slOnoff.value=brightdata.value.toString().toFloat()
                     binding.tvBrightness.text="${brightdata.value.toString().toInt()}%"
+                    binding.tvBrightness.setTextColor(Color.parseColor("#FF1CC3F8"))
                     val energyData=((brightdata.value.toString().toFloat()/100)*10)
                     binding.tvEnergy.text="%.1f".format(energyData)
                     Log.i("switch", "sukses")
                 }else{
                     binding.swOnoff.isChecked=false
+                    binding.slOnoff.value=brightdata.value.toString().toFloat()
+                    val valBright=binding.slOnoff.value.toInt().toString()
+                    binding.tvBrightness.text=valBright+"%"
+                    binding.tvBrightness.setTextColor(Color.parseColor("#CACACA"))
                     binding.slOnoff.isEnabled=false
                     binding.tvSwitch.text="Lamp Off"
                     binding.tvEnergy.text="0"
                 }
+
+
             }
             .addOnFailureListener {
                 Log.e("firebase", "Error getting data", it)
@@ -95,34 +99,7 @@ class SmartLamp : Fragment() {
     }
 
 
-    private fun readCondition() {
-        val dataListener=object : ValueEventListener {
-            override fun onDataChange(snapshot: DataSnapshot) {
-                val swData=snapshot.child("data").child("switch").getValue()
-                val brightdata=snapshot.child("data").child("brightness").getValue()
-                if (swData.toString()=="on"){
-                    binding.swOnoff.isChecked=true
-                    binding.slOnoff.isEnabled=true
-                    binding.tvSwitch.text="Lamp On"
-                    val value=brightdata.toString()
-                    binding.slOnoff.value=brightdata.toString().toFloat()
-                    binding.tvBrightness.text=value.toInt().toString()+"%"
-                    Log.d("brightdata",brightdata.toString())
-                }else{
-                    binding.swOnoff.isChecked=false
-                    binding.slOnoff.isEnabled=false
-                    binding.tvSwitch.text="Lamp Off"
-                    binding.tvEnergy.text="0"
-                }
 
-            }
-
-            override fun onCancelled(error: DatabaseError) {
-            }
-
-        }
-        database.addValueEventListener(dataListener)
-    }
 
     private fun sliderChange() {
         binding.slOnoff.addOnSliderTouchListener(object: Slider.OnSliderTouchListener{
@@ -146,6 +123,8 @@ class SmartLamp : Fragment() {
         val energyData=((slider.value/100)*10)
         binding.tvEnergy.text="%.1f".format(energyData)
     }
+
+
 
 
 }

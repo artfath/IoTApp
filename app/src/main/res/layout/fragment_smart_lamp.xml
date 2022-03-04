@@ -17,7 +17,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
             android:layout_marginTop="80dp"
-            android:text="Smart Lamp"
+            android:text="@string/smart_lamp"
             android:textColor="@color/white"
             android:textSize="32sp"
             android:textStyle="bold" />
@@ -26,7 +26,8 @@
             android:layout_width="match_parent"
             android:layout_height="260dp"
             android:layout_marginEnd="10dp"
-            android:src="@drawable/light" />
+            android:src="@drawable/light"
+            android:contentDescription="@string/attribute_lamp" />
 
     </LinearLayout>
 
@@ -50,7 +51,7 @@
                 android:id="@+id/tv_brightness"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="0%"
+                android:text="@string/zero"
                 android:textColor="@color/blue_500"
                 android:textSize="28sp"
                 android:textStyle="bold" />
@@ -59,7 +60,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="6dp"
-                android:text="Brightness"
+                android:text="@string/brightness"
                 android:textColor="#555555"
                 android:textSize="14sp" />
 
@@ -108,7 +109,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="6dp"
-                        android:text="Light in The Room"
+                        android:text="@string/light_in_the_room"
                         android:textColor="#555555"
                         android:textSize="20sp"
                         android:textStyle="bold" />
@@ -118,7 +119,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="6dp"
-                        android:text="Lamp Off"
+                        android:text="@string/lamp_state"
                         android:textColor="#555555"
                         android:textSize="14sp" />
 
@@ -161,7 +162,7 @@
                     android:layout_height="wrap_content"
                     android:layout_column="0"
                     android:layout_columnWeight="1"
-                    android:text="Energy"
+                    android:text="@string/energy"
                     android:textColor="#555555"
                     android:textSize="20sp"
                     android:textStyle="bold" />
@@ -172,7 +173,7 @@
                     android:layout_height="wrap_content"
                     android:layout_column="1"
                     android:layout_columnWeight="0.2"
-                    android:text="10"
+                    android:text="@string/_10"
                     android:textColor="@color/blue_500"
                     android:textSize="28sp"
                     android:textStyle="bold" />
@@ -182,7 +183,7 @@
                     android:layout_height="wrap_content"
                     android:layout_column="2"
                     android:layout_columnWeight="0.1"
-                    android:text="watt"
+                    android:text="@string/watt"
                     android:textColor="#555555"
                     android:textSize="16sp"
                     android:textStyle="bold" />
